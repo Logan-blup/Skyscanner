@@ -23,17 +23,17 @@ public class Client {
 
     @ManyToOne
     @JoinColumn(name = "advisor_id", nullable = false)
-    private FinancialAdvisor financialAdvisor;
+    private Advisor advisor;
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Portfolio portfolio;
 
-    public Client(String name, String email, String phoneNumber, String address, FinancialAdvisor financialAdvisor) {
+    public Client(String name, String email, String phoneNumber, String address, Advisor advisor) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.financialAdvisor = financialAdvisor;
+        this.advisor = advisor;
     }
 
     public Long getClientId() {
@@ -72,12 +72,12 @@ public class Client {
         this.address = address;
     }
 
-    public FinancialAdvisor getFinancialAdvisor() {
-        return financialAdvisor;
+    public Advisor getAdvisor() {
+        return advisor;
     }
 
-    public void setFinancialAdvisor(FinancialAdvisor financialAdvisor) {
-        this.financialAdvisor = financialAdvisor;
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 
     public Portfolio getPortfolio() {
@@ -88,4 +88,5 @@ public class Client {
         this.portfolio = portfolio;
     }
 }
+
 
