@@ -1,17 +1,19 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
-
-import java.lang.reflect.GenericArrayType;
-import java.util.List;
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
-public class Advisor {
+public class Client {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long advisorId;
+    private long clientId;
+
+
+    @ManyToOne
+    @JoinColumn(name = "advisor_id", nullable = false)
+    private Advisor advisor;
 
     @Column(nullable = false)
     private String firstName;
@@ -25,30 +27,31 @@ public class Advisor {
     @Column(nullable = false)
     private String phone;
 
-
     @Column(nullable = false)
     private String email;
+    @OneToOne(mappedBy = "protofolio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Protfolio protfolioId;
 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Client> clients;
-
-
-    protected Advisor() {
-
+    public Client() {
     }
 
-    public Advisor(long advisorId, String firstName, String lastName, String address, String phone, String email, List<Client> clients) {
-        this.advisorId = advisorId;
+    public Client(long clientId, Advisor advisor, String firstName, String lastName, String address, String phone, String email, Protfolio protfolioId) {
+        this.clientId = clientId;
+        this.advisor = advisor;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.clients = clients;
+        this.protfolioId = protfolioId;
     }
 
-    public long getAdvisorId() {
-        return advisorId;
+    public long getClientId() {
+        return clientId;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
     }
 
     public String getFirstName() {
@@ -71,12 +74,16 @@ public class Advisor {
         return email;
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public Protfolio getProtfolioId() {
+        return protfolioId;
     }
 
-    public void setAdvisorId(long advisorId) {
-        this.advisorId = advisorId;
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 
     public void setFirstName(String firstName) {
@@ -99,7 +106,7 @@ public class Advisor {
         this.email = email;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public void setProtfolioId(Protfolio protfolioId) {
+        this.protfolioId = protfolioId;
     }
 }
